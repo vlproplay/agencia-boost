@@ -277,7 +277,7 @@ function PipelinePage() {
             <div>
               <Label>Nova etapa</Label>
               <Select
-                value={target}
+                value={target ?? "novo"}
                 onValueChange={(v) =>
                   setMoving((m) => (m ? { ...m, to: v as Stage } : m))
                 }
@@ -422,13 +422,14 @@ function PipelinePage() {
               ["invests_traffic", "Já investe em tráfego"],
               ["revenue", "Faturamento"],
             ].map(([k, label]) => (
-              <div key={k}>
+              <div key={k as string}>
                 <Label>{label}</Label>
                 <Input
                   className="mt-1.5"
-                  value={form[k] ?? ""}
-                  onChange={(e) => set(k, e.target.value)}
+                  value={form[k as string] ?? ""}
+                  onChange={(e) => set(k as string, e.target.value)}
                 />
+
               </div>
             ))}
           </div>
