@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CadenciaRouteImport } from './routes/cadencia'
+import { Route as MqlRouteImport } from './routes/mql'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as VendasRouteImport } from './routes/vendas'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const CadenciaRoute = CadenciaRouteImport.update({
   id: '/cadencia',
   path: '/cadencia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MqlRoute = MqlRouteImport.update({
+  id: '/mql',
+  path: '/mql',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -38,12 +44,14 @@ const VendasRoute = VendasRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cadencia': typeof CadenciaRoute
+  '/mql': typeof MqlRoute
   '/pipeline': typeof PipelineRoute
   '/vendas': typeof VendasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cadencia': typeof CadenciaRoute
+  '/mql': typeof MqlRoute
   '/pipeline': typeof PipelineRoute
   '/vendas': typeof VendasRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cadencia': typeof CadenciaRoute
+  '/mql': typeof MqlRoute
   '/pipeline': typeof PipelineRoute
   '/vendas': typeof VendasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cadencia' | '/pipeline' | '/vendas'
+  fullPaths: '/' | '/cadencia' | '/mql' | '/pipeline' | '/vendas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cadencia' | '/pipeline' | '/vendas'
-  id: '__root__' | '/' | '/cadencia' | '/pipeline' | '/vendas'
+  to: '/' | '/cadencia' | '/mql' | '/pipeline' | '/vendas'
+  id: '__root__' | '/' | '/cadencia' | '/mql' | '/pipeline' | '/vendas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CadenciaRoute: typeof CadenciaRoute
+  MqlRoute: typeof MqlRoute
   PipelineRoute: typeof PipelineRoute
   VendasRoute: typeof VendasRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/cadencia'
       fullPath: '/cadencia'
       preLoaderRoute: typeof CadenciaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mql': {
+      id: '/mql'
+      path: '/mql'
+      fullPath: '/mql'
+      preLoaderRoute: typeof MqlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CadenciaRoute: CadenciaRoute,
+  MqlRoute: MqlRoute,
   PipelineRoute: PipelineRoute,
   VendasRoute: VendasRoute,
 }
