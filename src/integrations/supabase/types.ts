@@ -88,18 +88,32 @@ export type Database = {
       leads: {
         Row: {
           bant: string | null
+          bant_authority: string | null
+          bant_budget: string | null
+          bant_need: string | null
+          bant_timeline: string | null
+          cadence_day: number | null
+          cadence_status: string | null
           call_at: string | null
+          call_notes: string | null
           closer: string | null
+          contract_end: string | null
+          contract_start: string | null
           created_at: string
+          first_contact_at: string | null
           id: string
           invests_traffic: string | null
+          is_mql: boolean
           lost_reason: string | null
           market_time: string | null
+          mql_at: string | null
           name: string
           notes: string | null
           phone: string | null
           photo_url: string | null
           plan: string | null
+          proposal_plan: string | null
+          proposal_value: number | null
           revenue: string | null
           sale_value: number | null
           segment: string | null
@@ -110,18 +124,32 @@ export type Database = {
         }
         Insert: {
           bant?: string | null
+          bant_authority?: string | null
+          bant_budget?: string | null
+          bant_need?: string | null
+          bant_timeline?: string | null
+          cadence_day?: number | null
+          cadence_status?: string | null
           call_at?: string | null
+          call_notes?: string | null
           closer?: string | null
+          contract_end?: string | null
+          contract_start?: string | null
           created_at?: string
+          first_contact_at?: string | null
           id?: string
           invests_traffic?: string | null
+          is_mql?: boolean
           lost_reason?: string | null
           market_time?: string | null
+          mql_at?: string | null
           name: string
           notes?: string | null
           phone?: string | null
           photo_url?: string | null
           plan?: string | null
+          proposal_plan?: string | null
+          proposal_value?: number | null
           revenue?: string | null
           sale_value?: number | null
           segment?: string | null
@@ -132,18 +160,32 @@ export type Database = {
         }
         Update: {
           bant?: string | null
+          bant_authority?: string | null
+          bant_budget?: string | null
+          bant_need?: string | null
+          bant_timeline?: string | null
+          cadence_day?: number | null
+          cadence_status?: string | null
           call_at?: string | null
+          call_notes?: string | null
           closer?: string | null
+          contract_end?: string | null
+          contract_start?: string | null
           created_at?: string
+          first_contact_at?: string | null
           id?: string
           invests_traffic?: string | null
+          is_mql?: boolean
           lost_reason?: string | null
           market_time?: string | null
+          mql_at?: string | null
           name?: string
           notes?: string | null
           phone?: string | null
           photo_url?: string | null
           plan?: string | null
+          proposal_plan?: string | null
+          proposal_value?: number | null
           revenue?: string | null
           sale_value?: number | null
           segment?: string | null
