@@ -163,10 +163,10 @@ export function PipelinePage() {
       await updateLead(mqlLead.id, {
         is_mql: true,
         mql_at: new Date().toISOString(),
-        bant_budget: form["bant_budget"],
-        bant_authority: form["bant_authority"],
-        bant_need: form["bant_need"],
-        bant_timeline: form["bant_timeline"],
+        bant_budget: form["bant_budget"] ?? "",
+        bant_authority: form["bant_authority"] ?? "",
+        bant_need: form["bant_need"] ?? "",
+        bant_timeline: form["bant_timeline"] ?? "",
       });
     },
     onSuccess: () => {
@@ -506,11 +506,11 @@ export function PipelinePage() {
           </DialogHeader>
           <div className="space-y-3">
             {[
-              ["bant_budget", "Budget — quanto está disposto a investir"],
-              ["bant_authority", "Authority — é o decisor?"],
-              ["bant_need", "Need — qual a dor principal"],
-              ["bant_timeline", "Timeline — quando quer começar"],
-            ].map(([k, label]) => (
+              { k: "bant_budget", label: "Budget — quanto está disposto a investir" },
+              { k: "bant_authority", label: "Authority — é o decisor?" },
+              { k: "bant_need", label: "Need — qual a dor principal" },
+              { k: "bant_timeline", label: "Timeline — quando quer começar" },
+            ].map(({ k, label }) => (
               <div key={k}>
                 <Label>{label}</Label>
                 <Input
@@ -589,13 +589,13 @@ export function PipelinePage() {
           </DialogHeader>
           <div className="grid gap-3 sm:grid-cols-2">
             {[
-              ["name", "Nome"],
-              ["phone", "Telefone"],
-              ["segment", "Segmento"],
-              ["market_time", "Tempo de mercado"],
-              ["invests_traffic", "Já investe em tráfego"],
-              ["revenue", "Faturamento mensal"],
-            ].map(([k, label]) => (
+              { k: "name", label: "Nome" },
+              { k: "phone", label: "Telefone" },
+              { k: "segment", label: "Segmento" },
+              { k: "market_time", label: "Tempo de mercado" },
+              { k: "invests_traffic", label: "Já investe em tráfego" },
+              { k: "revenue", label: "Faturamento mensal" },
+            ].map(({ k, label }) => (
               <div key={k}>
                 <Label>{label}</Label>
                 <Input
