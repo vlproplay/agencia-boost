@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, KanbanSquare, ListChecks, Trophy } from "lucide-react";
+import { LayoutDashboard, KanbanSquare, ListChecks, Trophy, BadgeCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/pipeline", label: "Pipeline", icon: KanbanSquare },
+  { to: "/mql", label: "MQL", icon: BadgeCheck },
   { to: "/cadencia", label: "Cadência", icon: ListChecks },
   { to: "/vendas", label: "Vendas", icon: Trophy },
 ] as const;
@@ -12,10 +13,12 @@ const NAV = [
 export function AppShell({
   title,
   subtitle,
+  actions,
   children,
 }: {
   title: string;
   subtitle?: string;
+  actions?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -27,7 +30,7 @@ export function AppShell({
               RA
             </span>
             <span className="text-sm font-bold leading-tight tracking-tight">
-              Real Agência
+              Real Assessoria
               <span className="block text-[11px] font-medium text-muted-foreground">
                 CRM Comercial
               </span>
@@ -51,14 +54,17 @@ export function AppShell({
       </header>
 
       <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
-          {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
+            {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+          </div>
+          {actions}
         </div>
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-border bg-card md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-card md:hidden">
         {NAV.map(({ to, label, icon: Icon }) => (
           <Link
             key={to}

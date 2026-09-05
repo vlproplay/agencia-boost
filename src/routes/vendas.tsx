@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { AlertTriangle } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/ui/card";
@@ -10,21 +11,26 @@ import { brl, fetchGoals, fetchLeads, pct } from "@/lib/crm";
 export const Route = createFileRoute("/vendas")({
   head: () => ({
     meta: [
-      { title: "Vendas e MRR — CRM Real Agência" },
+      { title: "Vendas e MRR — CRM Real Assessoria" },
       {
         name: "description",
         content:
-          "Histórico completo de vendas fechadas, planos contratados, closers, origem e painel de MRR da carteira da Real Agência.",
+          "Histórico de vendas fechadas, planos contratados, closers, contratos e painel de MRR da carteira da Real Assessoria.",
       },
-      { property: "og:title", content: "Vendas e MRR — CRM Real Agência" },
+      { property: "og:title", content: "Vendas e MRR — CRM Real Assessoria" },
       {
         property: "og:description",
-        content: "Histórico de vendas, planos contratados e evolução do MRR da carteira.",
+        content: "Histórico de vendas, contratos e evolução do MRR da carteira.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: VendasPage,
 });
+
+const fmtDate = (d: string | null) =>
+  d ? new Date(`${d}T12:00`).toLocaleDateString("pt-BR") : "—";
 
 function VendasPage() {
   const { data: leads = [] } = useQuery({ queryKey: ["leads"], queryFn: fetchLeads });
@@ -40,8 +46,14 @@ function VendasPage() {
   const mrrGoal = goals?.mrr_goal ?? 1;
   const progresso = Math.min(100, pct(mrr, mrrGoal));
 
+  const limite = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);
+  const hoje = new Date().toISOString().slice(0, 10);
+  const vencendo = vendas.filter(
+    (v) => v.contract_end && v.contract_end >= hoje && v.contract_end <= limite,
+  );
+
   return (
-    <AppShell title="Vendas" subtitle="Histórico de fechamentos e saúde da carteira">
+    <AppShell title="Vendas e MRR" subtitle="Histórico de fechamentos e saúde da carteira">
       <div className="mb-6 grid gap-4 lg:grid-cols-3">
         <Card className="p-5 lg:col-span-2">
           <h3 className="text-base font-bold">MRR da carteira</h3>
@@ -95,8 +107,32 @@ function VendasPage() {
         </Card>
       </div>
 
+      <Card className="mb-6 border-warning/50 bg-warning/10 p-5">
+        <h3 className="flex items-center gap-2 text-base font-bold">
+          <AlertTriangle className="size-4" /> Contratos vencendo em 30 dias
+        </h3>
+        {vencendo.length ? (
+          <ul className="mt-3 space-y-2 text-sm">
+            {vencendo.map((v) => (
+              <li key={v.id} className="flex flex-wrap justify-between gap-2">
+                <span className="font-semibold">
+                  {v.name} · {v.plan}
+                </span>
+                <span className="tabular-nums text-muted-foreground">
+                  vence em {fmtDate(v.contract_end)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Nenhum contrato vencendo nos próximos 30 dias.
+          </p>
+        )}
+      </Card>
+
       <Card className="overflow-x-auto p-0">
-        <table className="w-full min-w-[860px] text-sm">
+        <table className="w-full min-w-[1000px] text-sm">
           <thead className="border-b border-border bg-secondary/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-semibold">Cliente</th>
@@ -106,6 +142,7 @@ function VendasPage() {
               <th className="px-4 py-3 font-semibold">Fechamento</th>
               <th className="px-4 py-3 font-semibold">Closer</th>
               <th className="px-4 py-3 font-semibold">Origem</th>
+              <th className="px-4 py-3 font-semibold">Contrato</th>
               <th className="px-4 py-3 font-semibold">MRR</th>
             </tr>
           </thead>
@@ -125,12 +162,15 @@ function VendasPage() {
                 <td className="px-4 py-3 text-muted-foreground">
                   {v.source === "organico" ? "Orgânico" : "Tráfego pago"}
                 </td>
+                <td className="px-4 py-3 tabular-nums text-muted-foreground">
+                  {fmtDate(v.contract_start)} → {fmtDate(v.contract_end)}
+                </td>
                 <td className="px-4 py-3 tabular-nums text-success">{brl(v.sale_value ?? 0)}</td>
               </tr>
             ))}
             {vendas.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">
+                <td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">
                   Nenhuma venda registrada ainda.
                 </td>
               </tr>
