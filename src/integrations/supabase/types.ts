@@ -14,7 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cadence_tasks: {
+        Row: {
+          action: string
+          created_at: string
+          day_offset: number
+          done: boolean
+          done_at: string | null
+          due_date: string
+          id: string
+          lead_id: string
+          outcome: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          day_offset: number
+          done?: boolean
+          done_at?: string | null
+          due_date: string
+          id?: string
+          lead_id: string
+          outcome?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          day_offset?: number
+          done?: boolean
+          done_at?: string | null
+          due_date?: string
+          id?: string
+          lead_id?: string
+          outcome?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cadence_tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goals: {
+        Row: {
+          ad_spend: number
+          id: string
+          mrr_goal: number
+          revenue_goal: number
+          sales_goal: number
+          updated_at: string
+        }
+        Insert: {
+          ad_spend?: number
+          id?: string
+          mrr_goal?: number
+          revenue_goal?: number
+          sales_goal?: number
+          updated_at?: string
+        }
+        Update: {
+          ad_spend?: number
+          id?: string
+          mrr_goal?: number
+          revenue_goal?: number
+          sales_goal?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          bant: string | null
+          call_at: string | null
+          closer: string | null
+          created_at: string
+          id: string
+          invests_traffic: string | null
+          lost_reason: string | null
+          market_time: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          photo_url: string | null
+          plan: string | null
+          revenue: string | null
+          sale_value: number | null
+          segment: string | null
+          source: string | null
+          stage: string
+          stage_changed_at: string
+          updated_at: string
+        }
+        Insert: {
+          bant?: string | null
+          call_at?: string | null
+          closer?: string | null
+          created_at?: string
+          id?: string
+          invests_traffic?: string | null
+          lost_reason?: string | null
+          market_time?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          plan?: string | null
+          revenue?: string | null
+          sale_value?: number | null
+          segment?: string | null
+          source?: string | null
+          stage?: string
+          stage_changed_at?: string
+          updated_at?: string
+        }
+        Update: {
+          bant?: string | null
+          call_at?: string | null
+          closer?: string | null
+          created_at?: string
+          id?: string
+          invests_traffic?: string | null
+          lost_reason?: string | null
+          market_time?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          plan?: string | null
+          revenue?: string | null
+          sale_value?: number | null
+          segment?: string | null
+          source?: string | null
+          stage?: string
+          stage_changed_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
