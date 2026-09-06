@@ -37,7 +37,6 @@ export function LeadCard({
     >
       <div className="flex items-start gap-2.5">
         <button
-          ref={undefined}
           type="button"
           className="mt-0.5 cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
           aria-label={`Arrastar ${lead.name}`}
@@ -58,10 +57,10 @@ export function LeadCard({
           </span>
         )}
         <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-1.5 truncate text-sm font-bold">
-            {lead.name}
+          <p className="flex items-center gap-1.5 text-sm font-bold">
+            <span className="truncate">{lead.name}</span>
             {lead.is_mql && (
-              <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-black text-primary-foreground">
+              <span className="shrink-0 rounded bg-primary px-1.5 py-0.5 text-[10px] font-black text-primary-foreground">
                 MQL
               </span>
             )}
